@@ -33,7 +33,7 @@ class ChromeStorage {
  * Implements a localStorage-like interface, but all
  * calls return promises.
  */
-class Storage {
+export default class Storage {
 
   /** @typedef {'browser'|'chrome-extension'} StorageMode */
 

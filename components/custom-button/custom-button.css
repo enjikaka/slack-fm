@@ -1,0 +1,32 @@
+button {
+  --lastfm-red: hsl(0, 100%, 36%);
+  --lastfm-red-darker: hsl(0, 100%, 30%);
+  --slack-green: hsl(156, 100%, 27%);
+  --slack-green-darker: hsl(156, 100%, 21%);
+
+  all: unset;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 12px;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  border-bottom: 4px solid black;
+
+  transition: all 150ms ease;
+}
+
+button:active {
+  transform: translateY(2px);
+  border-bottom: 4px solid transparent;
+}
+
+.lastfm {
+  background-color: var(--lastfm-red);
+  border-color: var(--lastfm-red-darker);
+}
+
+.slack {
+  background-color: var(--slack-green);
+  border-color: var(--slack-green-darker);
+}
