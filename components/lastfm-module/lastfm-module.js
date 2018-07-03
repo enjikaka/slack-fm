@@ -1,4 +1,5 @@
 import '../custom-button/custom-button.js';
+import '../lastfm-profile-card/lastfm-profile-card.js';
 
 class LastFMModule extends HTMLElement {
   static get observedAttributes () {
@@ -6,7 +7,6 @@ class LastFMModule extends HTMLElement {
   }
 
   attributeChangedCallback (name, oldValue, newValue) {
-    if (!oldValue) return;
     this.render();
   }
 
@@ -14,7 +14,7 @@ class LastFMModule extends HTMLElement {
     this.render();
   }
 
-  render () {
+  async render () {
     /** @type {'not-connected'|'connected'} */
     const state = this.getAttribute('state');
 
@@ -22,15 +22,55 @@ class LastFMModule extends HTMLElement {
 
     switch (state) {
       case 'connected':
-        html = '*logged in information*';
+        const user = await this.getUserInfo();
+        html = `
+          <lastfm-profile-card
+            name="${user.name}"
+            image="${user.image[0]['#text']}"
+          ></lastfm-profile-card>
+        `;
         break;
       case 'not-connected':
       default:
-        html = '<custom-button class="lastfm" text="Connect to LastFM"></custom-button>';
+        html = '<custom-button id="connect-lastfm" class="lastfm" text="Connect to LastFM"></custom-button>';
         break;
     }
 
     this.innerHTML = html;
+
+    this.registerEventListeners();
+  }
+
+  getUserInfo () {
+    return new Promise(resolve => {
+      document.dispatchEvent(new CustomEvent('last-fm:request:user-info'));
+
+      document.addEventListener('last-fm:response:user-info', event => resolve(event.detail.user), { once: true });
+    });
+  }
+
+  registerEventListeners () {
+    document.addEventListener('last-fm:connected', () => {
+      this.setAttribute('state', 'connected');
+    });
+
+    const connectLastFMButton = this.querySelector('#connect-lastfm');
+
+    if (connectLastFMButton) {
+      connectLastFMButton.addEventListener('click', () => {
+        const apiKey = prompt('Enter a LastFM API Key');
+        const username = prompt('Enter your username on LastFM');
+
+        if (apiKey && username) {
+          document.dispatchEvent(new CustomEvent('last-fm:request:connect', {
+            detail: {
+              apiKey,
+              username
+            }
+          }));
+        }
+      });
+    }
   }
 }
 

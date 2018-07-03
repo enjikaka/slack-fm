@@ -47,11 +47,13 @@ export default class Storage {
   /**
    * Sets an item in localStorage or chrome.storage.
    *
-   * @param {string} key
+   * @param {any} key
    * @param {string} value
    */
   async setItem (key, value) {
-    if (mode === 'chrome-extension') {
+    value = typeof value === 'string' ? value : JSON.stringify(value);
+
+    if (this._mode === 'chrome-extension') {
       return ChromeStorage.setItem(key);
     } else {
       return localStorage.setItem(key, value);
@@ -64,11 +66,19 @@ export default class Storage {
    * @param {string} key
    */
   async getItem (key) {
-    if (mode === 'chrome-extension') {
-      return ChromeStorage.getItem(key);
+    let value;
+
+    if (this._mode === 'chrome-extension') {
+      value = await ChromeStorage.getItem(key);
     } else {
-      return localStorage.getItem(key);
+      value = localStorage.getItem(key);
     }
+
+    try {
+      value = JSON.parse(value);
+    } catch (e) {}
+
+    return value;
   }
 
   /**
@@ -77,7 +87,7 @@ export default class Storage {
    * @param {string} key
    */
   removeItem (key) {
-    if (mode === 'chrome-extension') {
+    if (this._mode === 'chrome-extension') {
       ChromeStorage.removeItem(key);
     } else {
       localStorage.removeItem(key);
