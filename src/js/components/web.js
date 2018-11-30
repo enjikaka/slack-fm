@@ -31,6 +31,10 @@ export class Component extends HTMLElement {
     this.componentPath = componentPath;
   }
 
+  $ (q) {
+    return this._sDOM.querySelector(q);
+  }
+
   set state (updates) {
     this._state = Object.freeze({
       ...(this._state || {}),
