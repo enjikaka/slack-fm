@@ -1,0 +1,29 @@
+{
+  "name": "last-fm-slack-status",
+  "version": "0.0.1",
+  "description": "https://codepen.io/enjikaka/pen/KebZOG",
+  "main": "app.js",
+  "scripts": {
+    "dev": "http-server src -p 1337",
+    "build": "electron-packager . Example --platform=darwin --arch=x64 --version=0.36.0 --icon=Icon.icns",
+    "start": "electron . -debug"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enjikaka/last-fm-slack-status.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/enjikaka/last-fm-slack-status/issues"
+  },
+  "homepage": "https://github.com/enjikaka/last-fm-slack-status#readme",
+  "devDependencies": {
+    "electron": "^3.0.10",
+    "electron-packager": "^12.2.0",
+    "electron-prebuilt": "^1.4.13"
+  },
+  "dependencies": {
+    "menubar": "^5.2.3"
+  }
+}
