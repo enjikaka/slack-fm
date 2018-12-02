@@ -1,7 +1,7 @@
 const menubar = require('menubar');
 
 const mb = menubar({
-  dir: './src'
+  dir: './'
 });
 
 mb.on('ready', () => {

@@ -9,6 +9,13 @@ class SlackBox extends Web.Component {
     };
   }
 
+  componentDidMount () {
+    this.$('a').addEventListener('click', e => {
+      e.preventDefault();
+      window.open(e.target.href, '_blank', 'nodeIntegration=no');
+    });
+  }
+
   render () {
     const teams = this.state.teams ? this.state.teams.map(team => team.name).join(', ') : '';
 

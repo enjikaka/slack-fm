@@ -7,8 +7,8 @@
   if (code) {
       const body = new FormData();
 
-      body.append('client_id', '<client_id>');
-      body.append('client_secret', '<client_secret>');
+      body.append('client_id', '<slack_client_id>');
+      body.append('client_secret', '<slack_client_secret>');
       body.append('code', code);
 
       const response = await fetch('https://slack.com/api/oauth.access', { method: 'POST', body });
