@@ -1,9 +1,9 @@
 const menubar = require('menubar');
 
 const mb = menubar({
-  dir: './'
+  preloadWindow: true
 });
 
-mb.on('ready', () => {
-  console.log('App is ready');
+mb.on('after-create-window', () => {
+  mb.window.loadURL('https://slack-fm.firebaseapp.com');
 });

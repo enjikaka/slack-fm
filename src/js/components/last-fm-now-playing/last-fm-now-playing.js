@@ -1,6 +1,6 @@
 import * as Web from '../web.js';
 import LastFM from '../../lastfm.js';
-import { setStatus } from '../../slack.js';
+import { setStatus, resetStatusesFromBeforeScrobbling } from '../../slack.js';
 
 
 class LastFmNowPlaying extends Web.Component {
@@ -35,7 +35,7 @@ class LastFmNowPlaying extends Web.Component {
     const coverImageSrcSet = scrobblingTrack.image.map(({ url, size }) => `${url} ${size}w`).join(', ');
 
     if (scrobblingTrack) {
-      setStatus(scrobblingTrack.artist, scrobblingTrack.title);
+      setStatus(`${scrobblingTrack.artist} - ${scrobblingTrack.title}`).then(console.log);
 
       this.state = {
         ...scrobblingTrack,
@@ -48,13 +48,14 @@ class LastFmNowPlaying extends Web.Component {
       const scrobblingTrack = await LastFM['User.getScrobblingTrack'](this.props.user);
 
       if (!scrobblingTrack) {
+        resetStatusesFromBeforeScrobbling();
         return;
       }
 
       const coverImageSrcSet = scrobblingTrack.image.map(({ url, size }) => `${url} ${size}w`).join(', ');
 
       if (scrobblingTrack.url !== this.state.url) {
-        setStatus(scrobblingTrack.artist, scrobblingTrack.title);
+        setStatus(`${scrobblingTrack.artist} - ${scrobblingTrack.title}`).then(console.log);
 
         this.state = {
           ...scrobblingTrack,

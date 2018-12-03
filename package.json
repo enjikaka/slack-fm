@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "http-server src -p 1337",
-    "build": "electron-packager . SlackFM --all --icon=Icon.icns",
+    "build": "electron-packager . SlackFM --icon=Icon.icns",
     "start": "electron . -debug"
   },
   "repository": {

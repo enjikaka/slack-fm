@@ -17,9 +17,10 @@
         const json = await response.json();
 
         slackStore.teams.push({
-          id: json.team_id,
-          name: json.team_name,
-          accessToken: json.access_token
+          teamId: json.team_id,
+          teamName: json.team_name,
+          accessToken: json.access_token,
+          userId: json.user_id
         });
 
         localStorage.setItem('slack-store', JSON.stringify(slackStore));
@@ -31,22 +32,63 @@
   }
 })();
 
-export function setStatus (artist, title) {
-  const teams = localStorage.getItem('slack-store') !== null && JSON.parse(localStorage.getItem('slack-store')).teams;
-  const tokens = teams.map(t => t.accessToken);
+window.onunload = () => {
+  resetStatusesFromBeforeScrobbling();
+};
 
-  tokens.forEach(token => {
+export function resetStatusesFromBeforeScrobbling () {
+  const teams = localStorage.getItem('slack-store') !== null && JSON.parse(localStorage.getItem('slack-store')).teams;
+
+  teams.forEach(async ({ accessToken, teamId, userId }) => {
+    const statusBeforeScrobbling = JSON.parse(localStorage.getItem(`${teamId}:${userId}:prescrobble-status`));
+
+    if (statusBeforeScrobbling) {
+      setStatus(statusBeforeScrobbling.text, statusBeforeScrobbling.emoji).then(console.log);
+    }
+  });
+}
+
+export async function getStatus (accessToken, userId) {
+  const params = new URLSearchParams();
+
+  params.append('token', accessToken);
+  params.append('user', userId);
+
+  const url = `https://slack.com/api/users.profile.get?${params.toString()}`;
+
+  const response = await fetch(url);
+  const json = await response.json();
+
+  return {
+    text: json.profile.status_text,
+    emoji: json.profile.status_emoji
+  };
+}
+
+export async function setStatus (text, emoji = ':musical_note:') {
+  const teams = localStorage.getItem('slack-store') !== null && JSON.parse(localStorage.getItem('slack-store')).teams;
+
+  return await teams.forEach(async ({ accessToken, teamId, userId }) => {
     const body = new FormData();
 
-    body.append('token', token);
+    const statusBeforeScrobbling = localStorage.getItem(`${teamId}:${userId}:prescrobble-status`);
+
+    if (!statusBeforeScrobbling) {
+      const status = await getStatus(accessToken, userId);
+      localStorage.setItem(`${teamId}:${userId}:prescrobble-status`, JSON.stringify(status));
+    }
+
+    body.append('token', accessToken);
     body.append('profile', JSON.stringify({
-      'status_text': `${artist} - ${title}`,
-      'status_emoji': ':musical_note:',
+      'status_text': text,
+      'status_emoji': emoji,
     }));
 
     const url = 'https://slack.com/api/users.profile.set';
     const options = { method: 'POST', body };
 
-    fetch(url, options);
+    const reponse = await fetch(url, options);
+
+    return reponse.ok;
   });
 }
