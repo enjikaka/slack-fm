@@ -5,9 +5,9 @@
   "main": "app.js",
   "scripts": {
     "dev": "http-server src -p 1337",
-    "build:osx": "electron-packager . SlackFM --icon=Icon.icns",
-    "build:windows": "electron-packager . SlackFM --platform=win32",
-    "build:linux": "electron-packager . SlackFM --platform=linux --arch=x64  --icon=img/logo-iconset/icon_512x512.png",
+    "build:osx": "electron-packager . SlackFM --icon=Icon.icns --overwrite",
+    "build:windows": "electron-packager . SlackFM --platform=win32 --icon=Icon.ico --overwrite",
+    "build:linux": "electron-packager . SlackFM --platform=linux --arch=x64 --icon=img/logo.iconset/icon_512x512.png --overwrite",
     "start": "electron . -debug"
   },
   "repository": {
