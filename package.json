@@ -1,7 +1,7 @@
 {
-  "name": "last-fm-slack-status",
-  "version": "0.0.1",
-  "description": "https://codepen.io/enjikaka/pen/KebZOG",
+  "name": "slack-fm",
+  "version": "0.0.2",
+  "description": "Send your LastFM track info to Slack!",
   "main": "app.js",
   "scripts": {
     "dev": "http-server src -p 1337",
