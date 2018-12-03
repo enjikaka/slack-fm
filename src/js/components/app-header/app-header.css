@@ -5,6 +5,23 @@
   color: white;
   font-weight: 600;
   text-align: center;
-  padding: 0.5em;
+  height: 40px;
+  line-height: 40px;
   box-sizing: border-box;
+  -webkit-app-region: drag;
+}
+
+button {
+  all: unset;
+  position: absolute;
+  top: 5px;
+  right: 6px;
+  height: 42px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 250ms ease;
+}
+
+button:hover {
+  opacity: 1;
 }
