@@ -27,5 +27,8 @@
   },
   "dependencies": {
     "menubar": "^5.2.3"
+  },
+  "peerDependencies": {
+    "imageoptim-cli": "^2.0.4"
   }
 }

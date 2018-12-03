@@ -1,0 +1,11 @@
+convert -resize 16x16 img/logo.png IconTemplate.png
+convert -resize 20x20 img/logo.png IconTemplate@1.25x.png
+convert -resize 21.22x21.22 img/logo.png IconTemplate@1.33x.png
+convert -resize 22.2x22.4 img/logo.png IconTemplate@1.4x.png
+convert -resize 24x24 img/logo.png IconTemplate@1.5x.png
+convert -resize 28.8x28.8 img/logo.png IconTemplate@1.8x.png
+convert -resize 32x32 img/logo.png IconTemplate@2x.png
+convert -resize 40x40 img/logo.png IconTemplate@2.5x.png
+convert -resize 48x48 img/logo.png IconTemplate@3x.png
+convert -resize 64x64 img/logo.png IconTemplate@4x.png
+convert -resize 80x80 img/logo.png IconTemplate@5x.png

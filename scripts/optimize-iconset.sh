@@ -1,0 +1,1 @@
+imageoptim 'img/logo.iconset'
