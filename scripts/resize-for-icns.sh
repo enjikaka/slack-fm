@@ -1,3 +1,4 @@
+mkdir -p img/icn.iconset
 convert -resize 16x16 img/logo.png img/icn.iconset/icon_16x16.png
 convert -resize 32x32 img/logo.png img/icn.iconset/icon_16x16@2x.png
 convert -resize 32x32 img/logo.png img/icn.iconset/icon_32x32.png
