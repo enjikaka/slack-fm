@@ -3,30 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SlackFM</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito|Material+Icons">
-  <!---
-  <link rel="stylesheet" href="style.css">
-  -->
-  <style>
-  * {
-    font-family: 'Nunito', sans-serif;
-  }
 
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito|Material+Icons" media="not all" onload="if (media != 'all')media='all'">
+
+  <title>SlackFM</title>
+
+  <style>
+  * {font-family: 'Nunito', sans-serif}
   body {
     all: unset;
     width: 100vw;
     height: 100vh;
-    overflow: hidden;
+    overflow: hidden
   }
-
-  main {
-    margin: 2rem;
-  }
-
-  last-fm-now-playing {
-    margin-top: 1rem;
-  }
+  main {margin: 2rem}
+  last-fm-now-playing {margin-top: 1rem}
   </style>
   <script type="module" src="js/app.js"></script>
 </head>

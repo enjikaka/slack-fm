@@ -11,6 +11,17 @@
         "source": "**",
         "destination": "/index.html"
       }
+    ],
+    "headers": [
+      {
+        "source": "/",
+        "headers": [
+          {
+            "key": "Link",
+            "value": "<js/app.js>;rel=preload;as=script, <js/components/web.js>;rel=preload;as=script, <js/components/app-header/app-header.css>;rel=preload;as=style, <js/components/app-header/app-header.js>;rel=preload;as=script, <js/components/app-header/app-header.html>;rel=preload;as=document, <js/components/last-fm-box/last-fm-box.js>;rel=preload;as=script, <js/components/last-fm-now-playing/last-fm-now-playing.css>;rel=preload;as=style, <js/components/last-fm-now-playing/last-fm-now-playing.js>;rel=preload;as=script, <js/components/last-fm-user/last-fm-user.css>;rel=preload;as=style, <js/components/last-fm-user/last-fm-user.js>;rel=preload;as=script, <js/components/last-fm-username-chooser/last-fm-username-chooser.css>;rel=preload;as=style, <js/components/last-fm-username-chooser/last-fm-username-chooser.js>;rel=preload;as=script, <js/components/last-fm-username-chooser/last-fm-username-chooser.css>;rel=preload;as=style, <js/components/last-fm-username-chooser/last-fm-username-chooser.js>;rel=preload;as=script, <js/components/slack-box/slack-box.js>;rel=preload;as=script, <js/slack.js>;rel=preload;as=script, <js/lastfm.js>;rel=preload;as=script"
+          }
+        ]
+      }
     ]
   }
 }

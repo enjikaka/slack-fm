@@ -64,4 +64,9 @@ node_modules/
 # dotenv environment variables file
 .env
 
-SlackFM-darwin-x64/
+SlackFM-darwin-x64
+SlackFM-linux-x64
+SlackFM-win32-x64
+SlackFM-darwin-x64.zip
+SlackFM-linux-x64.zip
+SlackFM-win32-x64.zip
