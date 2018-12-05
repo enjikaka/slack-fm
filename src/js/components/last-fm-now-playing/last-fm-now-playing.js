@@ -21,13 +21,15 @@ class LastFmNowPlaying extends Web.Component {
 
   async componentDidUpdate () {
     const scrobblingTrack = await LastFM['User.getScrobblingTrack'](this.props.user);
-    const coverImageSrcSet = scrobblingTrack.image.map(({ url, size }) => `${url} ${size}w`).join(', ');
+    if (scrobblingTrack) {
+      const coverImageSrcSet = scrobblingTrack.image.map(({ url, size }) => `${url} ${size}w`).join(', ');
 
-    this.state = {
-      ...scrobblingTrack,
-      coverImageSrc: scrobblingTrack.image[0].url,
-      coverImageSrcSet
-    };
+      this.state = {
+        ...scrobblingTrack,
+        coverImageSrc: scrobblingTrack.image[0].url,
+        coverImageSrcSet
+      };
+    }
   }
 
   async componentDidMount () {
@@ -67,7 +69,7 @@ class LastFmNowPlaying extends Web.Component {
   }
 
   render () {
-    return Web.html`
+    return this.state.title ? Web.html`
       <figure>
         <img
           src="${this.state.coverImageSrc}"
@@ -80,7 +82,7 @@ class LastFmNowPlaying extends Web.Component {
         <span>${this.state.title}</span>
         <span>${this.state.artist}</span>
       </div>
-    `;
+    ` : '<span>Nothing is playing right now.</span>';
   }
 }
 
