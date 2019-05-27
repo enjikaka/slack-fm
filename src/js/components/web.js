@@ -73,9 +73,14 @@ export class Component extends HTMLElement {
   async _render () {
     const response = await fetch(this.cssPath);
     const css = await response.text();
-    const cssText = response.headers.get('content-type').indexOf('text/css') !== -1 ? css : '';
 
-    this._sDOM.innerHTML = `<style>${cssText}</style>`;
+    if (response.status === 200) {
+      const cssText = response.headers.get('content-type').indexOf('text/css') !== -1 ? css : '';
+
+      this._sDOM.innerHTML = `<style>${cssText}</style>`;
+    } else {
+      this._sDOM.innerHTML = '';
+    }
 
     stringToElements(this.render(this.props)).forEach(child => {
       this._sDOM.appendChild(child);
@@ -92,7 +97,7 @@ export class Component extends HTMLElement {
     const css = await responseCSS.text();
     const html = await responseHTML.text();
 
-    const cssText = responseCSS.headers.get('content-type').indexOf('text/css') !== -1 ? css : '';
+    const cssText = responseCSS && responseCSS.headers.get('content-type').indexOf('text/css') !== -1 ? css : '';
 
     this._sDOM.innerHTML = `<style>${cssText}</style>`;
 
