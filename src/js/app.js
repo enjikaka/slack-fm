@@ -1,5 +1,6 @@
 import './slack.js';
 import './components/app-header/app-header.js';
+import './components/app-menu/app-menu.js';
 import './components/sign-in/sign-in.js';
 import './components/last-fm-box/last-fm-box.js';
 import './components/last-fm-user/last-fm-user.js';

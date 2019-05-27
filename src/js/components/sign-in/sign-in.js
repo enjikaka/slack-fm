@@ -9,7 +9,7 @@ class SignIn extends Web.Component {
     const input = this.$('#last-fm-username');
     const button = this.$('#last-fm-continue-button');
 
-    button.addEventListener('click', event => {
+    button.addEventListener('click', () => {
       this.classList.add('last-fm-load');
       localStorage.setItem('last-fm-username', input.value);
 

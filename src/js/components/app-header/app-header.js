@@ -7,7 +7,7 @@ class AppHeader extends Web.Component {
 
   componentDidMount () {
     this.$('button').addEventListener('click', () => {
-      window.close();
+      document.dispatchEvent(new CustomEvent('menu:toggle'));
     });
   }
 }

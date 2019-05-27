@@ -39,6 +39,8 @@ window.onunload = () => {
 export function resetStatusesFromBeforeScrobbling () {
   const teams = localStorage.getItem('slack-store') !== null && JSON.parse(localStorage.getItem('slack-store')).teams;
 
+  console.log(teams);
+
   teams.forEach(async ({ accessToken, teamId, userId }) => {
     const statusBeforeScrobbling = JSON.parse(localStorage.getItem(`${teamId}:${userId}:prescrobble-status`));
 
@@ -67,6 +69,8 @@ export async function getStatus (accessToken, userId) {
 
 export async function setStatus (text, emoji = ':musical_note:') {
   const teams = localStorage.getItem('slack-store') !== null && JSON.parse(localStorage.getItem('slack-store')).teams;
+
+  if (!teams) return;
 
   return await teams.forEach(async ({ accessToken, teamId, userId }) => {
     const body = new FormData();
