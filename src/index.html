@@ -32,5 +32,25 @@
   <app-header>SlackFM</app-header>
   <main></main>
   <script type="module" src="js/app.js"></script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#config-web-app -->
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBqgG6blUTvzSVB5vOx7CXwYsQcxZjLl2o",
+      authDomain: "slack-fm.firebaseapp.com",
+      databaseURL: "https://slack-fm.firebaseio.com",
+      projectId: "slack-fm",
+      storageBucket: "slack-fm.appspot.com",
+      messagingSenderId: "816323282836",
+      appId: "1:816323282836:web:77f5501afe7a59b5"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
 </body>
 </html>
