@@ -39,7 +39,7 @@ window.onunload = () => {
 export function resetStatusesFromBeforeScrobbling () {
   const teams = localStorage.getItem('slack-store') !== null && JSON.parse(localStorage.getItem('slack-store')).teams;
 
-  console.log(teams);
+  if (!teams) return;
 
   teams.forEach(async ({ accessToken, teamId, userId }) => {
     const statusBeforeScrobbling = JSON.parse(localStorage.getItem(`${teamId}:${userId}:prescrobble-status`));

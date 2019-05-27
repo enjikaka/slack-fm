@@ -13,6 +13,10 @@ class AppMenu extends Web.Component {
 
     this.$('#close').addEventListener('click', () => window.close());
 
+    this.$('#slack-connect').addEventListener('click', () => {
+      window.open('https://slack.com/oauth/authorize?scope=users.profile%3Awrite,users.profile%3Aread&client_id=3673527425.490642082464');
+    });
+
     document.addEventListener('menu:toggle', () => {
       const open = this.getAttribute('open');
 

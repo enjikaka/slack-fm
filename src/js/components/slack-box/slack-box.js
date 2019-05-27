@@ -13,10 +13,7 @@ class SlackBox extends Web.Component {
     const teams = this.state.teams ? this.state.teams.map(team => team.teamName).join(', ') : '';
 
     return Web.html`
-      ${this.state.teams ? `<span>Settings song as status for these teams: ${teams}</span><br>` : ''}
-      <a href="https://slack.com/oauth/authorize?scope=users.profile%3Awrite,users.profile%3Aread&client_id=3673527425.490642082464">
-        <img src="https://platform.slack-edge.com/img/sign_in_with_slack.png" srcset="https://platform.slack-edge.com/img/sign_in_with_slack.png 1x, https://platform.slack-edge.com/img/sign_in_with_slack@2x.png 2x" />
-      </a>
+      ${teams ? `<span>Settings song as status for these teams: ${teams}</span><br>` : 'You are not connected to any Slack workspace. Press the menu on the top left and connect to one.'}
     `;
   }
 }

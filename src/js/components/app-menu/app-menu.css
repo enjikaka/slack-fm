@@ -1,6 +1,5 @@
 :host {
   position: fixed;
-  width: 200px;
   top: 40px;
   right: 0;
   transform-origin: 50% 0;
@@ -20,9 +19,9 @@ button {
   width: 100%;
   padding: 0.7em 1em;
   cursor: pointer;
-  transition: transform 50ms ease, background-color 50ms ease;
+  transition: transform 100ms ease;
 }
 
 button:hover {
-  transform: translateX(2%);
+  transform: translateX(1%);
 }
