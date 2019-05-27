@@ -13,7 +13,9 @@ class SlackBox extends Web.Component {
     const teams = this.state.teams ? this.state.teams.map(team => team.teamName).join(', ') : '';
 
     return Web.html`
-      ${teams ? `<span>Settings song as status for these teams: ${teams}</span><br>` : 'You are not connected to any Slack workspace. Press the menu on the top left and connect to one.'}
+      <small>
+        ${teams ? `Settings song as status for these teams: ${teams}` : 'You are not connected to any Slack workspace. Press the menu on the top left and connect to one.'}
+      </small>
     `;
   }
 }
