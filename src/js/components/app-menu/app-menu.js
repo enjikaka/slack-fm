@@ -7,7 +7,7 @@ class AppMenu extends Web.Component {
 
   componentDidMount () {
     this.$('#log-out').addEventListener('click', () => {
-      localStorage.removeItem('last-fm-username');
+      localStorage.clear();
       document.location.reload();
     });
 
