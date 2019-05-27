@@ -112,7 +112,7 @@ button:hover {
 }
 
 :host(.last-fm-done) #last-fm {
-  transform: translateX(-100%);
+  opacity: 0;
 }
 
 @keyframes fadeInDown {

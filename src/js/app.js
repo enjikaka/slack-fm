@@ -11,6 +11,8 @@ import './components/slack-box/slack-box.js';
 const lastFMUser = localStorage.getItem('last-fm-username');
 
 if (lastFMUser) {
+  document.body.classList.add('logged-in');
+
   document.body.querySelector('main').appendChild(
     document.createElement('last-fm-box')
   );

@@ -25,7 +25,14 @@
     left: 0;
   }
   main {margin: 2rem}
+  .logged-in main {
+    animation: fadeInDown 1s ease;
+  }
   last-fm-now-playing {margin-top: 1rem}
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-25%) }
+    to { opacity: 1; transform: none }
+  }
   </style>
 </head>
 <body>

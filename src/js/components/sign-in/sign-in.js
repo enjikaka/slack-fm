@@ -22,10 +22,13 @@ class SignIn extends Web.Component {
       );
 
       setTimeout(() => {
-        window.requestIdleCallback(() => {
-          this.classList.add('last-fm-done');
-        });
-      }, 2000);
+        this.classList.add('last-fm-done');
+        document.body.classList.add('logged-in');
+
+        setTimeout(() => {
+          this.remove();
+        }, 1500);
+      }, 1000);
     });
   }
 }
