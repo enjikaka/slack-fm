@@ -7,8 +7,8 @@
   if (code) {
       const body = new FormData();
 
-      body.append('client_id', '<slack_client_id>');
-      body.append('client_secret', '<slack_client_secret>');
+      body.append('client_id', process.env.SLACK_CLIENT_ID);
+      body.append('client_secret', process.env.SLACK_CLIENT_SECRET);
       body.append('code', code);
 
       const response = await fetch('https://slack.com/api/oauth.access', { method: 'POST', body });
@@ -86,6 +86,7 @@ export async function setStatus (text, emoji = ':musical_note:') {
     body.append('profile', JSON.stringify({
       'status_text': text,
       'status_emoji': emoji,
+      'status_expiration': Date.now() + 600000
     }));
 
     const url = 'https://slack.com/api/users.profile.set';

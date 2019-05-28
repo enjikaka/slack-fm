@@ -48,7 +48,7 @@ function parseUserInfo (user) {
   };
 }
 
-const apiKey = '<last_fm_api_key>';
+const apiKey = process.env.LASTFM_API_KEY;
 
 export default class LastFM {
   static async 'User.getInfo' (user) {
