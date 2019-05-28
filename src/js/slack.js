@@ -82,11 +82,13 @@ export async function setStatus (text, emoji = ':musical_note:') {
       localStorage.setItem(`${teamId}:${userId}:prescrobble-status`, JSON.stringify(status));
     }
 
+    const IN_TEN_MINUTES_AS_SECONDS = (Date.now() + 600000 / 1000);
+
     body.append('token', accessToken);
     body.append('profile', JSON.stringify({
       'status_text': text,
       'status_emoji': emoji,
-      'status_expiration': Date.now() + 600000
+      'status_expiration': IN_TEN_MINUTES_AS_SECONDS,
     }));
 
     const url = 'https://slack.com/api/users.profile.set';
