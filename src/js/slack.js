@@ -1,3 +1,16 @@
+
+async function getClientConfig() {
+  const response = await fetch('env.json');
+
+  if (!response.ok) {
+    throw new Error('No api config.');
+  }
+
+  const { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET } = await response.json();
+
+  return { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET };
+}
+
 (async () => {
   const slackStore = {
     ...(JSON.parse(localStorage.getItem('slack-store')) || { teams: [] })
@@ -7,8 +20,10 @@
   if (code) {
       const body = new FormData();
 
-      body.append('client_id', process.env.SLACK_CLIENT_ID);
-      body.append('client_secret', process.env.SLACK_CLIENT_SECRET);
+      const { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET } = await getClientConfig();
+
+      body.append('client_id', SLACK_CLIENT_ID);
+      body.append('client_secret', SLACK_CLIENT_SECRET);
       body.append('code', code);
 
       const response = await fetch('https://slack.com/api/oauth.access', { method: 'POST', body });

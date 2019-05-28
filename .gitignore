@@ -63,6 +63,7 @@ node_modules/
 
 # dotenv environment variables file
 .env
+env.json
 
 SlackFM-darwin-x64
 SlackFM-linux-x64

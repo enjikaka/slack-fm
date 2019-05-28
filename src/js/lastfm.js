@@ -48,10 +48,21 @@ function parseUserInfo (user) {
   };
 }
 
-const apiKey = process.env.LASTFM_API_KEY;
+async function getApiKey() {
+  const response = await fetch('env.json');
+
+  if (!response.ok) {
+    throw new Error('No api config.');
+  }
+
+  const { LASTFM_API_KEY } = await response.json();
+
+  return LASTFM_API_KEY;
+}
 
 export default class LastFM {
   static async 'User.getInfo' (user) {
+    const apiKey = await getApiKey();
     const url = `https://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=${user}&api_key=${apiKey}&format=json`;
     const response = await fetch(url);
     const json = await response.json();
@@ -62,6 +73,7 @@ export default class LastFM {
   }
 
   static async 'User.getScrobblingTrack' (user) {
+    const apiKey = await getApiKey();
     const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${user}&api_key=${apiKey}&limit=1&format=json`;
     const response = await fetch(url);
     const json = await response.json();
