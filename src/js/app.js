@@ -8,20 +8,24 @@ import './components/last-fm-now-playing/last-fm-now-playing.js';
 import './components/last-fm-username-chooser/last-fm-username-chooser.js';
 import './components/slack-box/slack-box.js';
 
-const lastFMUser = localStorage.getItem('last-fm-username');
+const slackIsLoggingIn = new URLSearchParams(document.location.search).get('code');
 
-if (lastFMUser) {
-  document.body.classList.add('logged-in');
+if (!slackIsLoggingIn) {
+  const lastFMUser = localStorage.getItem('last-fm-username');
 
-  document.body.querySelector('main').appendChild(
-    document.createElement('last-fm-box')
-  );
+  if (lastFMUser) {
+    document.body.classList.add('logged-in');
 
-  document.body.querySelector('main').appendChild(
-    document.createElement('slack-box')
-  );
-} else {
-  document.body.querySelector('main').appendChild(
-    document.createElement('sign-in')
-  );
+    document.body.querySelector('main').appendChild(
+      document.createElement('last-fm-box')
+    );
+
+    document.body.querySelector('main').appendChild(
+      document.createElement('slack-box')
+    );
+  } else {
+    document.body.querySelector('main').appendChild(
+      document.createElement('sign-in')
+    );
+  }
 }
