@@ -1,3 +1,4 @@
+import LastFM from './lastfm.js';
 
 let clientId;
 let clientSecret;
@@ -62,7 +63,7 @@ export function resetStatusesFromBeforeScrobbling () {
 
   if (!teams) return;
 
-  teams.forEach(async ({ accessToken, teamId, userId }) => {
+  teams.forEach(async ({ teamId, userId }) => {
     const statusBeforeScrobbling = JSON.parse(localStorage.getItem(`${teamId}:${userId}:prescrobble-status`));
 
     if (statusBeforeScrobbling) {
@@ -88,7 +89,7 @@ export async function getStatus (accessToken, userId) {
   };
 }
 
-export async function setStatus (text, emoji = ':musical_note:') {
+export async function setStatus (text = 'Not listening to music right now.', emoji = ':musical_note:') {
   const teams = localStorage.getItem('slack-store') !== null && JSON.parse(localStorage.getItem('slack-store')).teams;
 
   if (!teams) return;
@@ -103,13 +104,27 @@ export async function setStatus (text, emoji = ':musical_note:') {
       localStorage.setItem(`${teamId}:${userId}:prescrobble-status`, JSON.stringify(status));
     }
 
+
     const IN_TEN_MINUTES_AS_SECONDS = Math.ceil((Date.now() / 1000) + 600);
+    let statusExpiration = IN_TEN_MINUTES_AS_SECONDS;
+
+    const lastFMUserame = localStorage.getItem('last-fm-username');
+
+    if (lastFMUserame) {
+      const { artist, title } = await LastFM["User.getScrobblingTrack"](lastFMUserame);
+      const url = new URL('https://wt-43e42263dca67ab0063b88edf7ca290e-0.sandbox.auth0-extend.com/spotify-search-duration');
+      url.searchParams.set('q', `${artist} ${title}`);
+      const response = await fetch(url.toString());
+      const durationMs = await response.json();
+
+      statusExpiration = durationMs / 1000;
+    }
 
     body.append('token', accessToken);
     body.append('profile', JSON.stringify({
       'status_text': text,
       'status_emoji': emoji,
-      'status_expiration': IN_TEN_MINUTES_AS_SECONDS,
+      'status_expiration': statusExpiration,
     }));
 
     const url = 'https://slack.com/api/users.profile.set';
