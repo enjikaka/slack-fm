@@ -21,9 +21,8 @@
   },
   "homepage": "https://github.com/enjikaka/last-fm-slack-status#readme",
   "devDependencies": {
-    "electron": "^3.0.10",
-    "electron-packager": "^12.2.0",
-    "electron-prebuilt": "^1.4.13"
+    "electron": "^5.0.2",
+    "electron-packager": "^13.1.1"
   },
   "dependencies": {
     "menubar": "^5.2.3"
