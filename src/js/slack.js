@@ -1,5 +1,10 @@
 
-async function getClientConfig() {
+let clientId;
+let clientSecret;
+
+async function loadClientConfig() {
+  if (clientId && clientSecret) return;
+
   const response = await fetch('env.json');
 
   if (!response.ok) {
@@ -8,7 +13,8 @@ async function getClientConfig() {
 
   const { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET } = await response.json();
 
-  return { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET };
+  clientId = SLACK_CLIENT_ID;
+  clientSecret = SLACK_CLIENT_SECRET;
 }
 
 (async () => {
@@ -20,10 +26,10 @@ async function getClientConfig() {
   if (code) {
       const body = new FormData();
 
-      const { SLACK_CLIENT_ID, SLACK_CLIENT_SECRET } = await getClientConfig();
+      await loadClientConfig();
 
-      body.append('client_id', SLACK_CLIENT_ID);
-      body.append('client_secret', SLACK_CLIENT_SECRET);
+      body.append('client_id', clientId);
+      body.append('client_secret', clientSecret);
       body.append('code', code);
 
       const response = await fetch('https://slack.com/api/oauth.access', { method: 'POST', body });

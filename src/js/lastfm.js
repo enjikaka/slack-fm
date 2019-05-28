@@ -48,7 +48,11 @@ function parseUserInfo (user) {
   };
 }
 
-async function getApiKey() {
+let apiKey;
+
+async function loadAPIKey() {
+  if (apiKey) return;
+
   const response = await fetch('env.json');
 
   if (!response.ok) {
@@ -57,15 +61,17 @@ async function getApiKey() {
 
   const { LASTFM_API_KEY } = await response.json();
 
-  return LASTFM_API_KEY;
+  apiKey = LASTFM_API_KEY;
 }
 
 export default class LastFM {
   static async 'User.getInfo' (user) {
-    const apiKey = await getApiKey();
+    await loadAPIKey();
+
     const url = `https://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=${user}&api_key=${apiKey}&format=json`;
     const response = await fetch(url);
     const json = await response.json();
+
     /** @type {UserInfo} */
     const userInfo = parseUserInfo(json.user);
 
@@ -73,7 +79,8 @@ export default class LastFM {
   }
 
   static async 'User.getScrobblingTrack' (user) {
-    const apiKey = await getApiKey();
+    await loadAPIKey();
+
     const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${user}&api_key=${apiKey}&limit=1&format=json`;
     const response = await fetch(url);
     const json = await response.json();
