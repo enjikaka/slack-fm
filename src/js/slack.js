@@ -103,7 +103,7 @@ export async function setStatus (text, emoji = ':musical_note:') {
       localStorage.setItem(`${teamId}:${userId}:prescrobble-status`, JSON.stringify(status));
     }
 
-    const IN_TEN_MINUTES_AS_SECONDS = (Date.now() + 600000 / 1000);
+    const IN_TEN_MINUTES_AS_SECONDS = Math.ceil((Date.now() / 1000) + 600);
 
     body.append('token', accessToken);
     body.append('profile', JSON.stringify({
