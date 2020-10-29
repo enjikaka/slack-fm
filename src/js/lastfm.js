@@ -81,15 +81,10 @@ export default class LastFM {
   static async 'User.getScrobblingTrack' (user) {
     await loadAPIKey();
 
-    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${user}&api_key=${apiKey}&limit=1&format=json`;
+    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${user}&api_key=${apiKey}&limit=1&extended=1&format=json`;
     const response = await fetch(url);
     const json = await response.json();
     const latestTrack = json.recenttracks.track[0];
-
-    // When a track has a date it has already been played through
-    if (latestTrack.date) {
-      return undefined;
-    }
 
     const image = latestTrack.image.map(rewriteImageFormat);
 

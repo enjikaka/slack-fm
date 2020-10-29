@@ -34,6 +34,9 @@ class LastFmNowPlaying extends Web.Component {
 
   async componentDidMount () {
     const scrobblingTrack = await LastFM['User.getScrobblingTrack'](this.props.user);
+
+    console.log(scrobblingTrack);
+
     const coverImageSrcSet = scrobblingTrack.image.map(({ url, size }) => `${url} ${size}w`).join(', ');
 
     if (scrobblingTrack) {
@@ -48,6 +51,8 @@ class LastFmNowPlaying extends Web.Component {
 
     setInterval(async () => {
       const scrobblingTrack = await LastFM['User.getScrobblingTrack'](this.props.user);
+
+      console.log(scrobblingTrack);
 
       if (!scrobblingTrack) {
         resetStatusesFromBeforeScrobbling();
