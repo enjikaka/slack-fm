@@ -1,90 +1,92 @@
-import * as Web from '../web.js';
+import { registerFunctionComponent } from 'https://unpkg.com/webact';
 import LastFM from '../../lastfm.js';
 import { setStatus, resetStatusesFromBeforeScrobbling } from '../../slack.js';
 
+function LastFmNowPlaying ({ user }) {
+  const { $, html, css, propsChanged, postRender } = this;
+  let nowPlaying;
 
-class LastFmNowPlaying extends Web.Component {
-  constructor () {
-    super(import.meta.url);
-
-    this.state = {
-      title: '',
-      artist: '',
-      coverImageSrc: '',
-      coverImageSrcSet: ''
-    };
+  css`
+  :host {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin: 2rem 0;
+    height: 96px;
   }
 
-  static get observedAttributes () {
-    return ['user'];
+  figure {
+    all: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  async componentDidUpdate () {
-    const scrobblingTrack = await LastFM['User.getScrobblingTrack'](this.props.user);
-    if (scrobblingTrack) {
-      const coverImageSrcSet = scrobblingTrack.image.map(({ url, size }) => `${url} ${size}w`).join(', ');
+  img {
+    display: block;
+    width: 96px;
+    height: 96px;
+    border-radius: 12px;
+  }
 
-      this.state = {
-        ...scrobblingTrack,
-        coverImageSrc: scrobblingTrack.image[0].url,
-        coverImageSrcSet
-      };
+  .col {
+    margin-left: 2rem;
+  }
+
+  span {
+    display: block;
+    font-size: 1rem;
+  }
+
+  span:first-child {
+    font-weight: 600;
+  }
+  `;
+
+  html`
+    <figure>
+      <img sizes="128px" alt="Profile image">
+    </figure>
+    <div class="col">
+      <span></span>
+      <span></span>
+    </div>
+  `;
+
+  async function update () {
+    const img = $('img');
+    const titleSpan = $('span:first-child');
+    const artistSpan = $('span:last-child');
+    const scrobblingTrack = await LastFM['User.getScrobblingTrack'](user);
+
+    if (nowPlaying && nowPlaying.url === scrobblingTrack.url) {
+      return;
     }
-  }
-
-  async componentDidMount () {
-    const scrobblingTrack = await LastFM['User.getScrobblingTrack'](this.props.user);
 
     if (scrobblingTrack) {
+      nowPlaying = scrobblingTrack;
       const coverImageSrcSet = scrobblingTrack.image.map(({ url, size }) => `${url} ${size}w`).join(', ');
 
       setStatus(`${scrobblingTrack.artist} - ${scrobblingTrack.title}`).then(console.log);
 
-      this.state = {
-        ...scrobblingTrack,
-        coverImageSrc: scrobblingTrack.image[0].url,
-        coverImageSrcSet
-      };
+      img.src = scrobblingTrack.image[0].url;
+      img.srcset = coverImageSrcSet;
+      titleSpan.textContent = scrobblingTrack.title;
+      artistSpan.textContent = scrobblingTrack.artist;
+    } else {
+      resetStatusesFromBeforeScrobbling();
     }
-
-    setInterval(async () => {
-      const scrobblingTrack = await LastFM['User.getScrobblingTrack'](this.props.user);
-
-      if (!scrobblingTrack) {
-        resetStatusesFromBeforeScrobbling();
-        return;
-      }
-
-      const coverImageSrcSet = scrobblingTrack.image.map(({ url, size }) => `${url} ${size}w`).join(', ');
-
-      if (scrobblingTrack.url !== this.state.url) {
-        setStatus(`${scrobblingTrack.artist} - ${scrobblingTrack.title}`).then(console.log);
-
-        this.state = {
-          ...scrobblingTrack,
-          coverImageSrc: scrobblingTrack.image[0].url,
-          coverImageSrcSet
-        };
-      }
-    }, 5000);
   }
 
-  render () {
-    return this.state.title ? Web.html`
-      <figure>
-        <img
-          src="${this.state.coverImageSrc}"
-          srcset="${this.state.coverImageSrcSet}"
-          sizes="128px"
-          alt="Profile image"
-        >
-      </figure>
-      <div class="col">
-        <span>${this.state.title}</span>
-        <span>${this.state.artist}</span>
-      </div>
-    ` : '<span>Nothing is playing right now.</span>';
-  }
+  propsChanged(update);
+
+  postRender(() => {
+    update();
+    setInterval(update, 5000);
+  });
 }
 
-export default Web.registerComponent(LastFmNowPlaying);
+export default registerFunctionComponent(LastFmNowPlaying, {
+  name: 'last-fm-now-playing',
+  observedAttributes: ['user']
+});
