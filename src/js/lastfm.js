@@ -88,11 +88,11 @@ export default class LastFM {
 
     const image = latestTrack.image.map(rewriteImageFormat);
 
-    return {
+    return Boolean(latestTrack['@attr']['nowplaying']) ? {
       url: latestTrack.url,
       title: latestTrack.name,
       artist: latestTrack.artist.name,
       image
-    };
+    } : undefined;
   }
 }

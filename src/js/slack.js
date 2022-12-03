@@ -111,7 +111,14 @@ export async function setStatus (text = 'Not listening to music right now.', emo
     const lastFMUserame = localStorage.getItem('last-fm-username');
 
     if (lastFMUserame) {
-      const { artist, title } = await LastFM["User.getScrobblingTrack"](lastFMUserame);
+      const nowPlayingTrack = await LastFM["User.getScrobblingTrack"](lastFMUserame);
+
+      if (!nowPlayingTrack) {
+        return;
+      }
+
+      const { artist, title } = nowPlayingTrack;
+
       const url = new URL('https://wt-43e42263dca67ab0063b88edf7ca290e-0.sandbox.auth0-extend.com/spotify-search-duration');
       url.searchParams.set('q', `${artist} ${title}`);
       const response = await fetch(url.toString());
