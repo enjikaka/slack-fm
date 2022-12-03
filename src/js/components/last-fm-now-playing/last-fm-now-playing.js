@@ -35,9 +35,9 @@ class LastFmNowPlaying extends Web.Component {
   async componentDidMount () {
     const scrobblingTrack = await LastFM['User.getScrobblingTrack'](this.props.user);
 
-    const coverImageSrcSet = scrobblingTrack.image.map(({ url, size }) => `${url} ${size}w`).join(', ');
-
     if (scrobblingTrack) {
+      const coverImageSrcSet = scrobblingTrack.image.map(({ url, size }) => `${url} ${size}w`).join(', ');
+
       setStatus(`${scrobblingTrack.artist} - ${scrobblingTrack.title}`).then(console.log);
 
       this.state = {
