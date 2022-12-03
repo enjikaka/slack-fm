@@ -91,7 +91,7 @@ export default class LastFM {
     return {
       url: latestTrack.url,
       title: latestTrack.name,
-      artist: latestTrack.artist['#text'],
+      artist: latestTrack.artist.name,
       image
     };
   }
